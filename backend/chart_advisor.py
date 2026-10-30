@@ -15,8 +15,12 @@ _TEMPORAL_VALUE_RE = re.compile(
     r"^(\d{4}-\d{2}(-\d{2})?|\d{4}-Q[1-4]|Q[1-4]\s*\d{4}|\d{4}/\d{2})",
     re.IGNORECASE,
 )
-_PROPORTION_NAME_RE = re.compile(
-    r"(share|pct|percent|percentage|status|segment|channel|method|category)",
+_PROPORTION_Y_RE = re.compile(
+    r"(share|pct|percent|percentage|proportion|ratio)",
+    re.IGNORECASE,
+)
+_STATUS_X_RE = re.compile(
+    r"(status|channel|payment_method)",
     re.IGNORECASE,
 )
 
@@ -134,7 +138,7 @@ def infer_chart_recommendation(
             2 <= row_count <= 6
             and color_col is None
             and all_non_negative
-            and (_PROPORTION_NAME_RE.search(x_col) or _PROPORTION_NAME_RE.search(y_col))
+            and (_PROPORTION_Y_RE.search(y_col) or _STATUS_X_RE.search(x_col))
         ):
             return ChartRecommendation(
                 chart_type="pie",
