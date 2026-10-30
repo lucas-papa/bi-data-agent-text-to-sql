@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import os
+import sys
+from pathlib import Path
 from typing import Any
 
 import httpx
@@ -10,9 +12,16 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
-from backend.agent import AutonomousBIAgent
-from backend.database import get_database_schema
-from backend.schemas import AgentQueryResponse, ChartRecommendation, DatabaseSchemaResponse
+
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+
+from backend.agent import AutonomousBIAgent  # noqa: E402
+from backend.database import get_database_schema  # noqa: E402
+from backend.schemas import (  # noqa: E402
+    AgentQueryResponse,
+    ChartRecommendation,
+    DatabaseSchemaResponse,
+)
 
 DEFAULT_BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
