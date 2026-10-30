@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import random
 import sqlite3
+from contextlib import closing
 from datetime import datetime, timedelta
 from pathlib import Path
 
@@ -296,7 +297,7 @@ def seed_database(db_path: str | Path = DEFAULT_DB_PATH, seed: int = 42) -> dict
     target_path = Path(db_path)
     target_path.parent.mkdir(parents=True, exist_ok=True)
 
-    with sqlite3.connect(target_path) as conn:
+    with closing(sqlite3.connect(target_path)) as conn:
         conn.executescript(SCHEMA_DDL)
         cursor = conn.cursor()
 
