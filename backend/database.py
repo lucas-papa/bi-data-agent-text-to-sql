@@ -8,6 +8,8 @@ import time
 from pathlib import Path
 from typing import Any
 
+from scripts.seed_db import seed_database
+
 from backend.config import get_settings
 from backend.schemas import (
     ColumnInfo,
@@ -16,7 +18,6 @@ from backend.schemas import (
     QueryExecutionResult,
     TableSchema,
 )
-from scripts.seed_db import seed_database
 
 
 class SQLSecurityError(ValueError):
@@ -120,8 +121,9 @@ def validate_readonly_sql(query: str) -> str:
 
     first_keyword = tokens[0]
     if first_keyword not in ALLOWED_START_KEYWORDS:
+        allowed_list = ", ".join(sorted(ALLOWED_START_KEYWORDS))
         raise SQLSecurityError(
-            f"Query must begin with a read-only statement ({', '.join(sorted(ALLOWED_START_KEYWORDS))}), "
+            f"Query must begin with a read-only statement ({allowed_list}), "
             f"got '{first_keyword}'."
         )
 
@@ -187,7 +189,7 @@ def get_database_schema(db_path: str | Path | None = None) -> DatabaseSchemaResp
             ORDER BY name;
             """
         )
-        table_names = [ str(row["name"]) for row in cursor.fetchall() ]
+        table_names = [str(row["name"]) for row in cursor.fetchall()]
 
         for table_name in table_names:
             # Column metadata via PRAGMA table_info

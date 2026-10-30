@@ -7,7 +7,8 @@ Generates normalized, deterministic mock data for:
 - order_items
 
 Includes realistic edge cases:
-- NULL values in optional fields (phone, marketing_channel, customer_segment, shipped_date, discount_amount)
+- NULL values in optional fields (phone, marketing_channel, customer_segment,
+  shipped_date, discount_amount)
 - Cancelled, returned, and refunded orders
 - Transactions spanning multiple quarters (2025 Q1 through 2026 Q4)
 """
@@ -61,7 +62,9 @@ CREATE TABLE orders (
     customer_id INTEGER NOT NULL,
     order_date TIMESTAMP NOT NULL,
     shipped_date TIMESTAMP,
-    status TEXT NOT NULL CHECK (status IN ('completed', 'shipped', 'processing', 'cancelled', 'returned', 'refunded')),
+    status TEXT NOT NULL CHECK (
+        status IN ('completed', 'shipped', 'processing', 'cancelled', 'returned', 'refunded')
+    ),
     shipping_country TEXT NOT NULL,
     shipping_cost REAL NOT NULL DEFAULT 0.0,
     payment_method TEXT,
@@ -92,15 +95,56 @@ CREATE INDEX idx_customers_country ON customers(country);
 
 
 FIRST_NAMES = [
-    "Alice", "Bob", "Carlos", "Diana", "Elena", "Marcus", "Hannah", "Ibrahim",
-    "Julia", "Kevin", "Laura", "Mateo", "Nadia", "Oscar", "Priya", "Quinn",
-    "Rafael", "Sofia", "Tariq", "Uma", "Victor", "Wendy", "Xavier", "Yuki", "Zoe",
+    "Alice",
+    "Bob",
+    "Carlos",
+    "Diana",
+    "Elena",
+    "Marcus",
+    "Hannah",
+    "Ibrahim",
+    "Julia",
+    "Kevin",
+    "Laura",
+    "Mateo",
+    "Nadia",
+    "Oscar",
+    "Priya",
+    "Quinn",
+    "Rafael",
+    "Sofia",
+    "Tariq",
+    "Uma",
+    "Victor",
+    "Wendy",
+    "Xavier",
+    "Yuki",
+    "Zoe",
 ]
 
 LAST_NAMES = [
-    "Smith", "Johnson", "Silva", "Santos", "Chen", "Patel", "Kim", "Garcia",
-    "Mueller", "Dubois", "Rossi", "Novak", "Okafor", "Tanaka", "Alvarez",
-    "Lindqvist", "Fernandez", "Kowalski", "Costa", "Berg", "Shah", "Moreau",
+    "Smith",
+    "Johnson",
+    "Silva",
+    "Santos",
+    "Chen",
+    "Patel",
+    "Kim",
+    "Garcia",
+    "Mueller",
+    "Dubois",
+    "Rossi",
+    "Novak",
+    "Okafor",
+    "Tanaka",
+    "Alvarez",
+    "Lindqvist",
+    "Fernandez",
+    "Kowalski",
+    "Costa",
+    "Berg",
+    "Shah",
+    "Moreau",
 ]
 
 LOCATIONS: list[tuple[str, list[str | None]]] = [
@@ -115,24 +159,121 @@ LOCATIONS: list[tuple[str, list[str | None]]] = [
 
 SEGMENTS: list[str | None] = ["Enterprise", "Mid-Market", "SMB", "Consumer", None]
 CHANNELS: list[str | None] = ["Organic Search", "Paid Ads", "Referral", "Email", "Direct", None]
-PAYMENT_METHODS: list[str | None] = ["Credit Card", "Wire Transfer", "PayPal", "Pix", "Invoice", None]
+PAYMENT_METHODS: list[str | None] = [
+    "Credit Card",
+    "Wire Transfer",
+    "PayPal",
+    "Pix",
+    "Invoice",
+    None,
+]
 
 PRODUCTS_CATALOG: list[tuple[str, str, str, str | None, float, float, int, int]] = [
-    ("SKU-EL-001", "ProBook 16 Ultralight Laptop", "Electronics", "Laptops", 1499.99, 920.00, 85, 0),
+    (
+        "SKU-EL-001",
+        "ProBook 16 Ultralight Laptop",
+        "Electronics",
+        "Laptops",
+        1499.99,
+        920.00,
+        85,
+        0,
+    ),
     ("SKU-EL-002", "4K UltraSharp 32 Monitor", "Electronics", "Monitors", 649.50, 380.00, 120, 0),
-    ("SKU-EL-003", "NoiseGuard ANC Wireless Headphones", "Electronics", "Audio", 299.00, 115.00, 240, 0),
-    ("SKU-EL-004", "Thunderbolt 4 Docking Station", "Electronics", "Peripherals", 219.99, 95.00, 160, 0),
+    (
+        "SKU-EL-003",
+        "NoiseGuard ANC Wireless Headphones",
+        "Electronics",
+        "Audio",
+        299.00,
+        115.00,
+        240,
+        0,
+    ),
+    (
+        "SKU-EL-004",
+        "Thunderbolt 4 Docking Station",
+        "Electronics",
+        "Peripherals",
+        219.99,
+        95.00,
+        160,
+        0,
+    ),
     ("SKU-EL-005", "Legacy 1080p Webcam", "Electronics", "Peripherals", 59.99, 22.00, 0, 1),
-    ("SKU-SW-001", "CloudSync Enterprise License (Annual)", "Software", "SaaS", 1200.00, 120.00, 999, 0),
+    (
+        "SKU-SW-001",
+        "CloudSync Enterprise License (Annual)",
+        "Software",
+        "SaaS",
+        1200.00,
+        120.00,
+        999,
+        0,
+    ),
     ("SKU-SW-002", "DataPulse BI Connector Pro", "Software", "Analytics", 499.00, 45.00, 999, 0),
-    ("SKU-SW-003", "SecureVault Endpoint Protection", "Software", "Security", 189.00, 25.00, 999, 0),
-    ("SKU-SW-004", "DevOps Pipeline Optimizer", "Software", "Developer Tools", 799.00, 80.00, 999, 0),
+    (
+        "SKU-SW-003",
+        "SecureVault Endpoint Protection",
+        "Software",
+        "Security",
+        189.00,
+        25.00,
+        999,
+        0,
+    ),
+    (
+        "SKU-SW-004",
+        "DevOps Pipeline Optimizer",
+        "Software",
+        "Developer Tools",
+        799.00,
+        80.00,
+        999,
+        0,
+    ),
     ("SKU-HO-001", "ErgoMesh Executive Chair", "Home & Office", "Furniture", 549.00, 260.00, 45, 0),
-    ("SKU-HO-002", "Motorized Standing Desk 60in", "Home & Office", "Furniture", 699.00, 340.00, 30, 0),
+    (
+        "SKU-HO-002",
+        "Motorized Standing Desk 60in",
+        "Home & Office",
+        "Furniture",
+        699.00,
+        340.00,
+        30,
+        0,
+    ),
     ("SKU-HO-003", "LED Architect Desk Lamp", "Home & Office", "Lighting", 79.50, 28.00, 190, 0),
-    ("SKU-HO-004", "Acoustic Studio Wall Panels (6-Pack)", "Home & Office", "Acoustics", 129.00, 48.00, 75, 0),
-    ("SKU-AC-001", "Mechanical Keycap Custom Set", "Accessories", "Keyboards", 149.00, 52.00, 150, 0),
-    ("SKU-AC-002", "Ergonomic Vertical Wireless Mouse", "Accessories", "Mice", 89.99, 31.00, 310, 0),
+    (
+        "SKU-HO-004",
+        "Acoustic Studio Wall Panels (6-Pack)",
+        "Home & Office",
+        "Acoustics",
+        129.00,
+        48.00,
+        75,
+        0,
+    ),
+    (
+        "SKU-AC-001",
+        "Mechanical Keycap Custom Set",
+        "Accessories",
+        "Keyboards",
+        149.00,
+        52.00,
+        150,
+        0,
+    ),
+    (
+        "SKU-AC-002",
+        "Ergonomic Vertical Wireless Mouse",
+        "Accessories",
+        "Mice",
+        89.99,
+        31.00,
+        310,
+        0,
+    ),
     ("SKU-AC-003", "Braided USB-C 240W Cable (2m)", "Accessories", "Cables", 24.99, 5.50, 600, 0),
     ("SKU-AC-004", "Waterproof Laptop Sleeve 16in", "Accessories", "Bags", 45.00, 14.00, 210, 0),
     ("SKU-AC-005", "Portable NVMe SSD 2TB", "Accessories", "Storage", 179.99, 98.00, 110, 0),
@@ -254,7 +395,9 @@ def seed_database(db_path: str | Path = DEFAULT_DB_PATH, seed: int = 42) -> dict
 
                 # Generate 1 to 4 distinct line items per order
                 num_items = rng.randint(1, 4)
-                chosen_product_indices = rng.sample(range(1, len(PRODUCTS_CATALOG) + 1), k=num_items)
+                chosen_product_indices = rng.sample(
+                    range(1, len(PRODUCTS_CATALOG) + 1), k=num_items
+                )
 
                 order_subtotal = 0.0
                 items_to_insert: list[tuple[int, int, float, float | None, float]] = []
